@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>6B Chat Captain Candidates</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 40px 20px;
+      background: #f0f4f8;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 40px;
+    }
+
+    .header img {
+      height: 60px;
+      margin-right: 20px;
+    }
+
+    .header h1 {
+      font-size: 28px;
+    }
+
+    .catalog {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 40px;
+    }
+
+    .card-container {
+      perspective: 1000px;
+      width: 300px;
+      height: 430px;
+    }
+
+    .card {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.8s;
+      cursor: pointer;
+    }
+
+    .card.flipped {
+      transform: rotateY(180deg);
+    }
+
+    .card-face {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+      backface-visibility: hidden;
+      background: white;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-front img {
+      width: 100%;
+      height: 60%;
+      object-fit: contain;
+      background: #fff;
+      border-bottom: 2px solid #eee;
+    }
+
+    .card-front .info {
+      height: 40%;
+      padding: 15px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .card-front h2 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    .card-front p {
+      font-style: italic;
+      color: #555;
+      margin: 5px 0 0;
+      font-size: 14px;
+    }
+
+    .card-back {
+      transform: rotateY(180deg);
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    .card-back h3 {
+      margin-top: 0;
+      color: #333;
+    }
+
+    .card-back ul {
+      padding-left: 20px;
+      list-style: disc;
+      max-height: 180px;
+      overflow-y: auto;
+    }
+
+    .card-back p {
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    .vote-form {
+      max-width: 400px;
+      margin: 50px auto 20px;
+      padding: 20px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .vote-form h2 {
+      margin-bottom: 20px;
+    }
+
+    .vote-form input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    .vote-form button {
+      padding: 12px 24px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 10px;
+    }
+
+    .vote-form button:hover {
+      background-color: #0056b3;
+    }
+
+    .success-message {
+      color: green;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    @media (max-width: 768px) {
+      .catalog {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <img src="BPS.png" alt="School Logo">
+    <h1>6B Chat Captain Candidates</h1>
+  </div>
+
+  <div class="catalog" id="catalog"></div>
+
+ 
+
+  <script>
+    const candidates = [
+      {
+        name: "Sebastian Lloyd",
+        slogan: "Better call Seb",
+        reason: "Democracy",
+        image: "Seb.png",
+        rules: [
+          "Always be polite and considerate of others.",
+          "No Spam",
+          "Confidentiality",
+          "Stay on Topic",
+          "Be Inclusive",
+          "Use Proper Language",
+          "No Bullying or Harassment",
+          "Consider Different Time Zones",
+          "No Misinformation",
+          "Be Accountable",
+          "Have Fun!"
+        ]
+      },
+      {
+        name: "Indi Carlier",
+        slogan: "I love eating cheese",
+        reason: "Because I’m amazing",
+        image: "Indi.png",
+        rules: [
+          "You must be amazing",
+          "You must state that Indi is the most sigma of them all",
+          "You have to have a bowl cut",
+          "If you spam you get kicked",
+          "Do the griddy at least once a week",
+          "Don’t say Melanie Martinez is AI",
+          "You can’t own a lunchbox off Temu",
+          "If you say womp womp then you get put back in year 5",
+          "Must have decent shoes",
+          "Parents must be Alfas"
+        ]
+      },
+      {
+        name: "Jack Tambanis",
+        slogan: "Some of the best Captains don’t need a slogan",
+        reason: "Certified in Front-End development and part of the leadership team.",
+        image: "Jack.jpeg",
+        rules: [
+          "No Spamming",
+          "No using swears excessively or in a rude manner",
+          "No removing others",
+          "No sending offensive, scary, or inappropriate images",
+          "No sharing sensitive information",
+          "No leaking the group chat to others without permission",
+          "Just don’t be an asshole"
+        ]
+      },
+      {
+        name: "Eva Smith",
+        slogan: "The one and only 6B!",
+        reason: "I am very responsible but not boring or a teacher’s pet.",
+        image: "Eva.png",
+        rules: [
+          "No abusing",
+          "What’s in the chat stays in the chat",
+          "Don't spam 24/7",
+          "Don't be boring",
+          "Don't text during school hours",
+          "No one is added without 4-5 confirmations",
+          "Don’t snitch to teachers"
+        ]
+      }
+    ];
+
+    const catalog = document.getElementById("catalog");
+
+    candidates.forEach((candidate) => {
+      const container = document.createElement("div");
+      container.className = "card-container";
+      container.innerHTML = `
+        <div class="card" onclick="this.classList.toggle('flipped')">
+          <div class="card-face card-front">
+            <img src="${candidate.image}" alt="${candidate.name}">
+            <div class="info">
+              <h2>${candidate.name}</h2>
+              <p>${candidate.slogan}</p>
+            </div>
+          </div>
+          <div class="card-face card-back">
+            <h3>Why they should be captain</h3>
+            <p>${candidate.reason}</p>
+            <h3>Rules they'd implement</h3>
+            <ul>
+              ${candidate.rules.map(rule => `<li>${rule}</li>`).join('')}
+            </ul>
+          </div>
+        </div>
+      `;
+      catalog.appendChild(container);
+    });
+
+    // Optional: show confirmation without leaving page
+    const voteForm = document.getElementById("voteForm");
+    voteForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      fetch(voteForm.action, {
+        method: "POST",
+        body: new FormData(voteForm),
+        headers: {
+          Accept: "application/json"
+        }
+      }).then(response => {
+        if (response.ok) {
+          document.getElementById("successMsg").style.display = "block";
+          voteForm.reset();
+        } else {
+          alert("Oops! Something went wrong.");
+        }
+      });
+    });
+  </script>
+</body>
+</html>
